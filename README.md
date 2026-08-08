@@ -76,6 +76,12 @@ AstraYuga Studios is dedicated to designing premium indie gaming experiences tha
 - [ ] Set up a dynamic markdown-based Devlog CMS.
 - [ ] Port the developer portal layout to a **Next.js** framework.
 
+## 📸 Website Preview
+
+<div align="center">
+  <img src="assets/website_screenshot.png" alt="AstraYuga Studios Developer Portal Preview" width="100%" />
+</div>
+
 ---
 
 ## 👨‍💻 Solo Developer
