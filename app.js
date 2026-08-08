@@ -571,24 +571,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (email) {
                     // Save subscription in local storage
                     let subscribers = JSON.parse(localStorage.getItem('astrayuga_subscribers') || '[]');
-                    if (!subscribers.includes(email)) {
+                    const alreadySubscribed = subscribers.includes(email);
+                    
+                    if (!alreadySubscribed) {
                         subscribers.push(email);
                         localStorage.setItem('astrayuga_subscribers', JSON.stringify(subscribers));
-                        
-                        // Increment subscriber count in Abacus API
-                        try {
-                            const namespace = 'astrayuga-studios-portal';
+                    }
+                    
+                    // Update subscriber count in Abacus API
+                    try {
+                        const namespace = 'astrayuga-studios-portal';
+                        let newSubCount;
+                        if (!alreadySubscribed) {
+                            // If new, increment on server
                             const sRes = await fetch(`https://abacus.jasoncameron.dev/hit/${namespace}/subscribers`);
                             const sData = await sRes.json();
-                            const newSubCount = sData.value || subscribers.length;
-                            
-                            const subscriberEl = document.getElementById('subscriber-count');
-                            const heroSubscriberEl = document.getElementById('hero-subscriber-count');
-                            if (subscriberEl) subscriberEl.textContent = Number(newSubCount).toLocaleString();
-                            if (heroSubscriberEl) heroSubscriberEl.textContent = Number(newSubCount).toLocaleString();
-                        } catch (err) {
-                            console.log("Error updating subscriber count:", err);
+                            newSubCount = sData.value || subscribers.length;
+                        } else {
+                            // If already subscribed, just fetch current count
+                            const sRes = await fetch(`https://abacus.jasoncameron.dev/get/${namespace}/subscribers`);
+                            const sData = await sRes.json();
+                            newSubCount = sData.value || subscribers.length;
                         }
+                        
+                        const subscriberEl = document.getElementById('subscriber-count');
+                        const heroSubscriberEl = document.getElementById('hero-subscriber-count');
+                        if (subscriberEl) subscriberEl.textContent = Number(newSubCount).toLocaleString();
+                        if (heroSubscriberEl) heroSubscriberEl.textContent = Number(newSubCount).toLocaleString();
+                    } catch (err) {
+                        console.log("Error updating subscriber count:", err);
                     }
                     
                     // Show custom notification
