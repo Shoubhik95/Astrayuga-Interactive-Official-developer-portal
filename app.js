@@ -484,6 +484,121 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         updateInteractiveListeners();
+        
+        // Setup real-time counters via CounterAPI
+        async function setupRealtimeCounters() {
+            const visitorEl = document.getElementById('visitor-count');
+            const heroVisitorEl = document.getElementById('hero-visitor-count');
+            const subscriberEl = document.getElementById('subscriber-count');
+            const heroSubscriberEl = document.getElementById('hero-subscriber-count');
+
+            const namespace = 'astrayuga-interactive-official';
+
+            function updateDisplays(visitors, subscribers) {
+                const formattedV = Number(visitors).toLocaleString();
+                const formattedS = Number(subscribers).toLocaleString();
+                if (visitorEl) visitorEl.textContent = formattedV;
+                if (heroVisitorEl) heroVisitorEl.textContent = formattedV;
+                if (subscriberEl) subscriberEl.textContent = formattedS;
+                if (heroSubscriberEl) heroSubscriberEl.textContent = formattedS;
+            }
+
+            try {
+                // Increment visitor count on load
+                const vRes = await fetch(`https://api.counterapi.dev/v1/${namespace}/visitors/up`);
+                const vData = await vRes.json();
+                const visitorCount = vData.count || 0;
+
+                // Fetch subscriber count
+                let subscriberCount = 0;
+                try {
+                    const sRes = await fetch(`https://api.counterapi.dev/v1/${namespace}/subscribers`);
+                    if (sRes.ok) {
+                        const sData = await sRes.json();
+                        subscriberCount = sData.count || 0;
+                    }
+                } catch (err) {
+                    console.log("Error loading subscribers:", err);
+                }
+
+                updateDisplays(visitorCount, subscriberCount);
+
+            } catch (err) {
+                console.log("Error loading counters:", err);
+                // Fallback to local storage count if API is blocked
+                let localV = localStorage.getItem('astrayuga_visitors') || 0;
+                localV = parseInt(localV) + 1;
+                localStorage.setItem('astrayuga_visitors', localV);
+                
+                let localS = JSON.parse(localStorage.getItem('astrayuga_subscribers') || '[]').length;
+                updateDisplays(localV, localS);
+            }
+        }
+
+        setupRealtimeCounters();
+
+        // Subscribe overlay logic
+        const btnSubscribe = document.getElementById('btnSubscribe');
+        const subscribeOverlay = document.getElementById('subscribeOverlay');
+        const btnCloseSubscribe = document.getElementById('btnCloseSubscribe');
+        const subscribeForm = document.getElementById('subscribeForm');
+        const subscribeSuccessMsg = document.getElementById('subscribeSuccessMsg');
+        const subscribeEmail = document.getElementById('subscribeEmail');
+
+        if (btnSubscribe && subscribeOverlay) {
+            btnSubscribe.addEventListener('click', () => {
+                subscribeOverlay.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                if (subscribeSuccessMsg) subscribeSuccessMsg.style.display = 'none';
+                if (subscribeForm) {
+                    subscribeForm.style.display = 'flex';
+                    subscribeForm.reset();
+                }
+            });
+        }
+
+        if (btnCloseSubscribe && subscribeOverlay) {
+            btnCloseSubscribe.addEventListener('click', () => {
+                subscribeOverlay.style.display = 'none';
+                document.body.style.overflow = '';
+            });
+        }
+
+        if (subscribeForm) {
+            subscribeForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = subscribeEmail.value.trim();
+                if (email) {
+                    // Save subscription in local storage
+                    let subscribers = JSON.parse(localStorage.getItem('astrayuga_subscribers') || '[]');
+                    if (!subscribers.includes(email)) {
+                        subscribers.push(email);
+                        localStorage.setItem('astrayuga_subscribers', JSON.stringify(subscribers));
+                        
+                        // Increment subscriber count in CounterAPI
+                        try {
+                            const namespace = 'astrayuga-interactive-official';
+                            const sRes = await fetch(`https://api.counterapi.dev/v1/${namespace}/subscribers/up`);
+                            const sData = await sRes.json();
+                            const newSubCount = sData.count || subscribers.length;
+                            
+                            const subscriberEl = document.getElementById('subscriber-count');
+                            const heroSubscriberEl = document.getElementById('hero-subscriber-count');
+                            if (subscriberEl) subscriberEl.textContent = Number(newSubCount).toLocaleString();
+                            if (heroSubscriberEl) heroSubscriberEl.textContent = Number(newSubCount).toLocaleString();
+                        } catch (err) {
+                            console.log("Error updating subscriber count:", err);
+                        }
+                    }
+                    
+                    // Show custom notification
+                    subscribeForm.style.display = 'none';
+                    if (subscribeSuccessMsg) {
+                        subscribeSuccessMsg.style.display = 'block';
+                    }
+                }
+            });
+        }
 
         // Re-run listener attachment if dynamic content is toggled (e.g. accordion clicks)
         document.addEventListener('click', () => {
