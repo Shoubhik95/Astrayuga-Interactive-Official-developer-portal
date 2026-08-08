@@ -485,14 +485,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         updateInteractiveListeners();
         
-        // Setup real-time counters via CounterAPI
+        // Setup real-time counters via Abacus API
         async function setupRealtimeCounters() {
             const visitorEl = document.getElementById('visitor-count');
             const heroVisitorEl = document.getElementById('hero-visitor-count');
             const subscriberEl = document.getElementById('subscriber-count');
             const heroSubscriberEl = document.getElementById('hero-subscriber-count');
 
-            const namespace = 'astrayuga-interactive-official';
+            const namespace = 'astrayuga-studios-portal';
 
             function updateDisplays(visitors, subscribers) {
                 const formattedV = Number(visitors).toLocaleString();
@@ -505,17 +505,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Increment visitor count on load
-                const vRes = await fetch(`https://api.counterapi.dev/v1/${namespace}/visitors/up`);
+                const vRes = await fetch(`https://abacus.jasoncameron.dev/hit/${namespace}/visitors`);
                 const vData = await vRes.json();
-                const visitorCount = vData.count || 0;
+                const visitorCount = vData.value || 0;
 
                 // Fetch subscriber count
                 let subscriberCount = 0;
                 try {
-                    const sRes = await fetch(`https://api.counterapi.dev/v1/${namespace}/subscribers`);
+                    const sRes = await fetch(`https://abacus.jasoncameron.dev/get/${namespace}/subscribers`);
                     if (sRes.ok) {
                         const sData = await sRes.json();
-                        subscriberCount = sData.count || 0;
+                        subscriberCount = sData.value || 0;
                     }
                 } catch (err) {
                     console.log("Error loading subscribers:", err);
@@ -575,12 +575,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         subscribers.push(email);
                         localStorage.setItem('astrayuga_subscribers', JSON.stringify(subscribers));
                         
-                        // Increment subscriber count in CounterAPI
+                        // Increment subscriber count in Abacus API
                         try {
-                            const namespace = 'astrayuga-interactive-official';
-                            const sRes = await fetch(`https://api.counterapi.dev/v1/${namespace}/subscribers/up`);
+                            const namespace = 'astrayuga-studios-portal';
+                            const sRes = await fetch(`https://abacus.jasoncameron.dev/hit/${namespace}/subscribers`);
                             const sData = await sRes.json();
-                            const newSubCount = sData.count || subscribers.length;
+                            const newSubCount = sData.value || subscribers.length;
                             
                             const subscriberEl = document.getElementById('subscriber-count');
                             const heroSubscriberEl = document.getElementById('hero-subscriber-count');
