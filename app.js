@@ -68,9 +68,20 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(fadeOutLoader, 10000);
 
     // 1. Two-Year Milestone Countdown (Updates both top banner and Newswire clocks)
-    const targetDate = new Date();
-    targetDate.setFullYear(targetDate.getFullYear() + 2); // 2 years from now
-    const startDate = new Date();
+    let targetDateStr = localStorage.getItem('astrayuga_target_date');
+    let startDateStr = localStorage.getItem('astrayuga_start_date');
+    let targetDate, startDate;
+
+    if (targetDateStr && startDateStr) {
+        targetDate = new Date(targetDateStr);
+        startDate = new Date(startDateStr);
+    } else {
+        targetDate = new Date();
+        targetDate.setFullYear(targetDate.getFullYear() + 2); // 2 years from now
+        startDate = new Date();
+        localStorage.setItem('astrayuga_target_date', targetDate.toISOString());
+        localStorage.setItem('astrayuga_start_date', startDate.toISOString());
+    }
 
     function updateCountdown() {
         const now = new Date();
