@@ -543,7 +543,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnCloseSubscribe = document.getElementById('btnCloseSubscribe');
         const subscribeForm = document.getElementById('subscribeForm');
         const subscribeSuccessMsg = document.getElementById('subscribeSuccessMsg');
-        const subscribeEmail = document.getElementById('subscribeEmail');
 
         if (btnSubscribe && subscribeOverlay) {
             btnSubscribe.addEventListener('click', () => {
@@ -567,46 +566,41 @@ document.addEventListener('DOMContentLoaded', () => {
         if (subscribeForm) {
             subscribeForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const email = subscribeEmail.value.trim();
-                if (email) {
-                    // Save subscription in local storage
-                    let subscribers = JSON.parse(localStorage.getItem('astrayuga_subscribers') || '[]');
-                    const alreadySubscribed = subscribers.includes(email);
-                    
+                // Check if already subscribed in this browser
+                const alreadySubscribed = localStorage.getItem('astrayuga_subscribed') === 'true';
+                
+                if (!alreadySubscribed) {
+                    localStorage.setItem('astrayuga_subscribed', 'true');
+                }
+                
+                // Update subscriber count in Abacus API
+                try {
+                    const namespace = 'astrayuga-studios-portal';
+                    let newSubCount;
                     if (!alreadySubscribed) {
-                        subscribers.push(email);
-                        localStorage.setItem('astrayuga_subscribers', JSON.stringify(subscribers));
+                        // If new, increment on server
+                        const sRes = await fetch(`https://abacus.jasoncameron.dev/hit/${namespace}/subscribers`);
+                        const sData = await sRes.json();
+                        newSubCount = sData.value || 1;
+                    } else {
+                        // If already subscribed, just fetch current count
+                        const sRes = await fetch(`https://abacus.jasoncameron.dev/get/${namespace}/subscribers`);
+                        const sData = await sRes.json();
+                        newSubCount = sData.value || 1;
                     }
                     
-                    // Update subscriber count in Abacus API
-                    try {
-                        const namespace = 'astrayuga-studios-portal';
-                        let newSubCount;
-                        if (!alreadySubscribed) {
-                            // If new, increment on server
-                            const sRes = await fetch(`https://abacus.jasoncameron.dev/hit/${namespace}/subscribers`);
-                            const sData = await sRes.json();
-                            newSubCount = sData.value || subscribers.length;
-                        } else {
-                            // If already subscribed, just fetch current count
-                            const sRes = await fetch(`https://abacus.jasoncameron.dev/get/${namespace}/subscribers`);
-                            const sData = await sRes.json();
-                            newSubCount = sData.value || subscribers.length;
-                        }
-                        
-                        const subscriberEl = document.getElementById('subscriber-count');
-                        const heroSubscriberEl = document.getElementById('hero-subscriber-count');
-                        if (subscriberEl) subscriberEl.textContent = Number(newSubCount).toLocaleString();
-                        if (heroSubscriberEl) heroSubscriberEl.textContent = Number(newSubCount).toLocaleString();
-                    } catch (err) {
-                        console.log("Error updating subscriber count:", err);
-                    }
-                    
-                    // Show custom notification
-                    subscribeForm.style.display = 'none';
-                    if (subscribeSuccessMsg) {
-                        subscribeSuccessMsg.style.display = 'block';
-                    }
+                    const subscriberEl = document.getElementById('subscriber-count');
+                    const heroSubscriberEl = document.getElementById('hero-subscriber-count');
+                    if (subscriberEl) subscriberEl.textContent = Number(newSubCount).toLocaleString();
+                    if (heroSubscriberEl) heroSubscriberEl.textContent = Number(newSubCount).toLocaleString();
+                } catch (err) {
+                    console.log("Error updating subscriber count:", err);
+                }
+                
+                // Show custom notification
+                subscribeForm.style.display = 'none';
+                if (subscribeSuccessMsg) {
+                    subscribeSuccessMsg.style.display = 'block';
                 }
             });
         }
