@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Astrayuga Interactive - Official Game Developer Portal. Discover flagship projects like Untold Story: Alexia Part 1, created by Shoubhik Bhattacharya from VIT Bhopal.">
+    <meta name="keywords"
+        content="Astrayuga Interactive, Untold Story Alexia Part 1, Shoubhik Bhattacharya, VIT Bhopal, Indie Game Developer, Rockstar Games, Ubisoft">
+    <meta name="author" content="Shoubhik Bhattacharya">
+    <title>Astrayuga Interactive | Official Developer Portal</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;700&family=Inter:wght@300;400;600;700;800&family=Creepster&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="studio-theme">
+
+    <!-- Cinematic Loading Screen -->
+    <div id="cinematicLoader" class="cinematic-loader">
+        <div class="loader-vignette"></div>
+        <video id="openingVideo" autoplay playsinline class="opening-video-bg">
+            <source src="remove_loading_baar.mp4" type="video/mp4">
+        </video>
+        <!-- Centered Text Overlay -->
+        <div class="video-text-overlay">
+            <h2 class="overlay-brand"><span class="logo-gold">ASTRAYUGA</span> <span class="logo-light">INTERACTIVE</span></h2>
+            <p class="overlay-tagline">GAMES PRESENTS</p>
+            <div class="overlay-progress-container">
+                <div class="overlay-progress-bar"></div>
+            </div>
+            <span class="overlay-status-text">INITIALIZING SYSTEM...</span>
+        </div>
+        <button id="skipIntroBtn" class="skip-intro-btn">SKIP INTRO <i class="fa-solid fa-angles-right"></i></button>
+    </div>
+
+    <!-- Ambient Audio Widget -->
+    <div class="audio-widget" id="audioWidget">
+        <button id="soundToggle" aria-label="Toggle Ambient Sound">
+            <i class="fa-solid fa-volume-xmark"></i>
+        </button>
+        <span class="audio-status">MUTED</span>
+    </div>
+    <audio id="ambientTrack" loop src="https://assets.mixkit.co/active_storage/sfx/123/123-200.wav"></audio>
+
+    <!-- Background Fog Effect (Ambient Horror Theme) -->
+    <div class="fog-container">
+        <div class="fog-layer fog-layer-1"></div>
+        <div class="fog-layer fog-layer-2"></div>
+    </div>
+
+
+    <!-- Sticky Countdown Ticker Banner at Absolute Top -->
+    <div class="top-countdown-banner">
+        <div class="banner-content">
+            <span class="ticker-label"><i class="fa-solid fa-radiation animate-spin"></i> ALEXIA COMING SOON:</span>
+            <div class="ticker-timer">
+                <span class="ticker-digit" id="top-days">730</span><span class="ticker-label-sm">D</span>
+                <span class="ticker-colon">:</span>
+                <span class="ticker-digit" id="top-hours">00</span><span class="ticker-label-sm">H</span>
+                <span class="ticker-colon">:</span>
+                <span class="ticker-digit" id="top-minutes">00</span><span class="ticker-label-sm">M</span>
+                <span class="ticker-colon">:</span>
+                <span class="ticker-digit" id="top-seconds">00</span><span class="ticker-label-sm">S</span>
+            </div>
+            <span class="ticker-target-date">GAME READY TARGET</span>
+        </div>
+    </div>
+
+    <header class="studio-header">
+        <div class="header-container">
+            <a href="#" class="studio-logo">
+                <span class="logo-gold creepy-trigger">ASTRAYUGA</span> <span class="logo-light">INTERACTIVE</span>
+            </a>
+            <nav class="studio-nav">
+                <ul class="nav-links">
+                    <li><a href="#heroSection" class="nav-link active">Home</a></li>
+                    <li><a href="#gamesSection" class="nav-link">Project</a></li>
+                    <li><a href="#newswireSection" class="nav-link">Devlogs</a></li>
+                    <li><a href="#aboutSection" class="nav-link">About</a></li>
+                    <li class="nav-social-item"><a href="https://github.com/Shoubhik95" target="_blank" class="nav-link"
+                            aria-label="GitHub"><i class="fa-brands fa-github"></i></a></li>
+                    <li class="nav-social-item"><a href="https://www.linkedin.com/in/shoubhik-bhattacharya-8b4099324/"
+                            target="_blank" class="nav-link" aria-label="LinkedIn"><i
+                                class="fa-brands fa-linkedin"></i></a></li>
+                    <li class="nav-social-item"><a
+                            href="https://www.instagram.com/shouvik_cinematics_08?utm_source=qr&igsh=MXcxd3o3NGU5ZDAydQ=="
+                            target="_blank" class="nav-link" aria-label="Instagram"><i
+                                class="fa-brands fa-instagram"></i></a></li>
+                    <li class="nav-social-item"><a
+                            href="https://shoubhik-bhattacharya-portfolio.vercel.app/"
+                            target="_blank" class="nav-link" aria-label="Portfolio"><i
+                                class="fa-solid fa-globe"></i></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION (Rockstar Feature Style) -->
+    <section class="studio-hero" id="heroSection">
+        <video autoplay loop muted playsinline class="hero-video-bg">
+            <source src="remove_the_menus_from_side_baa.mp4" type="video/mp4">
+        </video>
+        <div class="hero-glow-overlay"></div>
+        <div class="hero-text-wrapper">
+            <div class="flagship-label"><span class="hero-coming-soon-pill">COMING SOON</span> &bull; FLAGSHIP RELEASE
+            </div>
+            <h1 class="hero-game-title">UNTOLD STORY: <span class="accent-red">ALEXIA PART 1</span></h1>
+            <p class="hero-tagline">"Every Monster Has A Story."</p>
+
+            <!-- Center page Countdown Timer & Coming Soon Quotes -->
+            <div class="hero-timer-container">
+                <div class="hero-timer-digits">
+                    <div class="hero-timer-block">
+                        <span id="hero-days" class="hero-timer-num">730</span>
+                        <span class="hero-timer-label">DAYS</span>
+                    </div>
+                    <div class="hero-timer-colon">:</div>
+                    <div class="hero-timer-block">
+                        <span id="hero-hours" class="hero-timer-num">00</span>
+                        <span class="hero-timer-label">HRS</span>
+                    </div>
+                    <div class="hero-timer-colon">:</div>
+                    <div class="hero-timer-block">
+                        <span id="hero-minutes" class="hero-timer-num">00</span>
+                        <span class="hero-timer-label">MINS</span>
+                    </div>
+                    <div class="hero-timer-colon">:</div>
+                    <div class="hero-timer-block">
+                        <span id="hero-seconds" class="hero-timer-num">00</span>
+                        <span class="hero-timer-label">SECS</span>
+                    </div>
+                </div>
+                <div class="hero-timer-quote">"Survival is an illusion. The curse of Daneshwar awakens soon."</div>
+            </div>
+
+            <div class="hero-actions">
+                <button class="btn btn-primary" id="btnExploreGame">FEATURED GAME</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content wrapper that starts below the hero section -->
+    <div class="content-body-wrapper"
+        style="position: relative; z-index: 2; overflow: hidden; background: transparent;">
+        <!-- Fixed Background Video for lower page segments -->
+        <video autoplay loop muted playsinline class="body-video-bg">
+            <source src="remove_menus_and_make_this_cha.mp4" type="video/mp4">
+        </video>
+
+        <!-- GAMES SECTION (Ubisoft Grid Style - Only Flagship Untold Story Card) -->
+        <section class="games-section" id="gamesSection">
+            <div class="container">
+                <h2 class="section-title">FEATURED GAME</h2>
+                <p class="section-subtitle">Our flagship psychological horror project</p>
+
+                <div class="games-grid single-card-layout">
+                    <!-- Flagship Card -->
+                    <div class="game-card featured-game creepy-trigger" id="cardAlexia">
+                        <div class="card-image-box">
+                            <img src="assets/main_menu.png" alt="Untold Story: Alexia Cover Art" class="game-card-img">
+                        </div>
+                        <div class="card-info">
+                            <div class="game-meta">Astrayuga Interactive &bull; Psychological Horror</div>
+                            <h3>Untold Story: Alexia Part 1</h3>
+                            <p>Unravel the curse of Daneshwar village and survive the psychological illusions of the
+                                demonic
+                                vessel doll, Alexia. <strong>Planned in 2 parts (Part 1 target releasing in ~2 years).
+                                    After Part 1, the dark truth of Anaya's tragic death will finally be
+                                    revealed.</strong></p>
+                            <button class="btn-text-link">Explore GDD & Story <i
+                                    class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW GAME MAIN MENU SIMULATOR OVERLAY -->
+        <div class="main-menu-overlay" id="mainMenuOverlay">
+            <button class="close-menu-btn" id="btnCloseMenu" aria-label="Close Main Menu"><i
+                    class="fa-solid fa-xmark"></i></button>
+            <div class="main-menu-container active">
+                <div class="studio-watermark">ASTRAYUGA INTERACTIVE PRESENTS</div>
+                <div class="creator-credits-top">A GAME BY SB / SHOUBHIK BHATTACHARYA</div>
+
+                <div class="menu-layout">
+                    <nav class="menu-navigation" aria-label="Main Menu">
+                        <ul class="menu-list">
+                            <li><button class="menu-item" id="btnNewGame">NEW GAME</button></li>
+                            <li><button class="menu-item" id="btnLoadGame">LOAD GAME</button></li>
+                            <li><button class="menu-item" id="btnSettings">SETTINGS</button></li>
+                            <li><button class="menu-item" id="btnCredits">CREDITS</button></li>
+                            <li><button class="menu-item" id="btnQuit">QUIT</button></li>
+                        </ul>
+                    </nav>
+
+                    <div class="menu-centerpiece">
+                        <div class="monster-glow-container">
+                            <img src="assets/main_menu.png" alt="Blue Monster Doll" class="main-monster-img">
+                            <div class="pulsing-heart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading screen inside menu -->
+                <div class="loading-overlay" id="loadingOverlay">
+                    <div class="loading-content">
+                        <div class="loading-title">LOADING... [CHAPTER 1]</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="progressBarFill"></div>
+                        </div>
+                        <div class="loading-quote">"Every Monster Has A Story."</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Story Popup Alert Overlay -->
+        <div id="storyPopupOverlay" class="story-popup-overlay">
+            <div class="story-popup-content">
+                <div class="story-popup-icon"><i class="fa-solid fa-book-skull"></i></div>
+                <h2 class="story-popup-message">Story Badi Hi Jald Aapke Paas Hogi...</h2>
+                <div class="story-divider"></div>
+                <div class="story-popup-sub">THE CURSE AWAITS THE CHOSEN ONE</div>
+                <button class="story-popup-close-btn" id="btnExitStoryPopup">CLOSE SYSTEM</button>
+            </div>
+        </div>
+
+        <!-- NEWSWIRE SECTION (Rockstar Newswire Style) -->
+        <section class="newswire-section" id="newswireSection">
+            <div class="container">
+                <h2 class="section-title">STUDIO NEWSWIRE</h2>
+                <p class="section-subtitle">Latest dispatches and updates from our dev team</p>
+
+                <div class="newswire-grid">
+                    <!-- Countdown Milestone post -->
+                    <div class="newswire-card glass-panel highlight-post">
+                        <div class="post-content">
+                            <span class="post-tag">MILESTONE</span>
+                            <h3>Countdown to 2-Year Development Target</h3>
+                            <p>We are tracking closely to our milestone target. Watch the countdown timer below counting
+                                down to the official project showcase completion milestone.</p>
+
+                            <!-- Embedded Countdown Timer -->
+                            <div class="countdown-timer-container">
+                                <div class="timer-digits">
+                                    <div class="timer-unit">
+                                        <span id="days">730</span>
+                                        <span class="unit-label">DAYS</span>
+                                    </div>
+                                    <div class="timer-unit">
+                                        <span id="hours">00</span>
+                                        <span class="unit-label">HRS</span>
+                                    </div>
+                                    <div class="timer-unit">
+                                        <span id="minutes">00</span>
+                                        <span class="unit-label">MINS</span>
+                                    </div>
+                                    <div class="timer-unit">
+                                        <span id="seconds">00</span>
+                                        <span class="unit-label">SECS</span>
+                                    </div>
+                                </div>
+                                <div class="timer-bar">
+                                    <div class="timer-bar-fill" id="timerProgressFill"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Update Post 2 -->
+                    <div class="newswire-card glass-panel">
+                        <div class="post-content">
+                            <span class="post-tag">ANNOUNCEMENT</span>
+                            <h3>VIT Bhopal Showcase</h3>
+                            <p>Solo developer <strong>Shoubhik Bhattacharya</strong> announces the launch of Astrayuga,
+                                representing a fresh era of horror and tactical design out of VIT Bhopal.</p>
+                            <span class="post-date">August 8, 2026</span>
+                        </div>
+                    </div>
+
+                    <!-- Update Post 3 -->
+                    <div class="newswire-card glass-panel">
+                        <div class="post-content">
+                            <span class="post-tag">INSIDE LOOK</span>
+                            <h3>The Mythology of Alexia</h3>
+                            <p>How I adapted the occult folklore of the Daneshwar curse into a psychological sandbox
+                                that
+                                keeps players questioning reality.</p>
+                            <span class="post-date">August 5, 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section class="about-section" id="aboutSection">
+            <div class="container">
+                <h2 class="section-title text-center">THE DEVELOPER</h2>
+                <div class="profile-container glass-panel">
+                    <div class="profile-avatar-box">
+                        <div class="avatar-glow-ring">
+                            <img src="assets/dev_profile.png" alt="Shoubhik Bhattacharya" class="dev-profile-img">
+                        </div>
+                    </div>
+
+                    <div class="profile-details">
+                        <h1>SHOUBHIK BHATTACHARYA</h1>
+                        <div class="dev-title">Founder & Lead Designer &bull; Astrayuga Interactive</div>
+
+                        <!-- Developer Statistics Highlighted Row -->
+                        <div class="studio-stats"
+                            style="margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 2rem;">
+                            <div class="stat-card">
+                                <div class="stat-num">3+</div>
+                                <div class="stat-label">Years Experience</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-num">1</div>
+                                <div class="stat-label">Big Project</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-num">4</div>
+                                <div class="stat-label">Small Projects</div>
+                            </div>
+                        </div>
+
+                        <p class="dev-bio">
+                            Passionate and multi-disciplinary Game Developer, Technical Designer, and 3D Artist with
+                            3+ years of experience in game development and design. Proven track record of building
+                            immersive
+                            virtual environments, endless runners, and interactive web tools, including 1 flagship major
+                            project
+                            and 4 smaller games/utilities. Adept at bridging the gap between programming and art using
+                            Unity,
+                            Unreal Engine 5, and Blender, with a strong focus on gameplay systems, user engagement, and
+                            visual fidelity.
+                        </p>
+
+                        <!-- Developer Contacts (Shifted below bio) -->
+                        <div class="contact-links-grid"
+                            style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-bottom: 2.5rem; border-bottom: none; padding-bottom: 0;">
+                            <a href="mailto:shoubhikbhattacharya100@gmail.com"><i class="fa-solid fa-envelope"></i>
+                                shoubhikbhattacharya100@gmail.com</a>
+                            <a href="https://github.com/Shoubhik95" target="_blank"><i class="fa-brands fa-github"></i>
+                                GitHub</a>
+                            <a href="https://www.linkedin.com/in/shoubhik-bhattacharya-8b4099324/" target="_blank"><i
+                                    class="fa-brands fa-linkedin"></i> LinkedIn</a>
+                            <a href="https://www.instagram.com/shouvik_cinematics_08?utm_source=qr&igsh=MXcxd3o3NGU5ZDAydQ=="
+                                target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
+                            <a href="https://shoubhik-bhattacharya-portfolio.vercel.app/" target="_blank"><i class="fa-solid fa-globe"></i> Portfolio</a>
+                        </div>
+
+                        <h3>EDUCATION</h3>
+                        <div class="resume-education-box">
+                            <strong>VIT Bhopal University</strong> (CGPA: 8.08)<br>
+                            <span>B.Tech Computer Science with Gaming Technology</span>
+                        </div>
+
+                        <h3>CORE SKILLS</h3>
+                        <div class="spec-skills-grid">
+                            <div class="skill-item">
+                                <i class="fa-solid fa-gamepad"></i>
+                                <div class="skill-text">
+                                    <h4>Game Development</h4>
+                                    <p>Unreal Engine 5, Unity, Blueprint Scripting, VR/AR, Niagara VFX, Metahuman</p>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fa-solid fa-bezier-curve"></i>
+                                <div class="skill-text">
+                                    <h4>Game Design & Art</h4>
+                                    <p>3D Modelling (Blender), Animation, Rigging, Blendshapes, Asset Sculpting</p>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fa-solid fa-code"></i>
+                                <div class="skill-text">
+                                    <h4>Programming</h4>
+                                    <p>C#, C++, Python (Pipeline Automation, Utility Tools), OOPs & Data Structures</p>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fa-solid fa-laptop-code"></i>
+                                <div class="skill-text">
+                                    <h4>Web Development</h4>
+                                    <p>HTML, CSS, JavaScript, UI/UX Layouts (Figma)</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="studio-footer">
+            <div class="container text-center">
+                <div class="footer-logo">ASTRAYUGA INTERACTIVE</div>
+                <div class="footer-socials">
+                    <a href="https://github.com/Shoubhik95" target="_blank" aria-label="GitHub"><i
+                            class="fa-brands fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/shoubhik-bhattacharya-8b4099324/" target="_blank"
+                        aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/shouvik_cinematics_08?utm_source=qr&igsh=MXcxd3o3NGU5ZDAydQ=="
+                        target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://shoubhik-bhattacharya-portfolio.vercel.app/" target="_blank" aria-label="Portfolio"><i class="fa-solid fa-globe"></i></a>
+                </div>
+                <p class="footer-info">Created by <strong>Shoubhik Bhattacharya</strong> &bull; VIT Bhopal</p>
+                <p class="footer-copyright">&copy; 2026 Astrayuga Interactive. All rights reserved. Untold Story: Alexia
+                    Part 1 is a trademark
+                    of Astrayuga Interactive.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Custom Horror Cursor Follower -->
+    <div class="custom-horror-cursor" id="customHorrorCursor"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
