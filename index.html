@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-responsive.css">
 </head>
 
 <body class="studio-theme">
@@ -29,7 +30,7 @@
     <!-- Cinematic Loading Screen -->
     <div id="cinematicLoader" class="cinematic-loader">
         <div class="loader-vignette"></div>
-        <video id="openingVideo" autoplay playsinline class="opening-video-bg">
+        <video id="openingVideo" autoplay muted loop playsinline class="opening-video-bg">
             <source src="remove_loading_baar.mp4" type="video/mp4">
         </video>
         <!-- Centered Text Overlay -->
@@ -43,6 +44,22 @@
             <span class="overlay-status-text">INITIALIZING SYSTEM...</span>
         </div>
         <button id="skipIntroBtn" class="skip-intro-btn">SKIP INTRO <i class="fa-solid fa-angles-right"></i></button>
+    </div>
+
+    <!-- Surprise Announcement Overlay -->
+    <div id="surpriseOverlay" class="surprise-overlay">
+        <canvas id="surpriseCanvas" class="surprise-canvas"></canvas>
+        <div class="surprise-vignette"></div>
+        <div class="surprise-card">
+            <div class="surprise-pulse-glow"></div>
+            <div class="surprise-tag">CAT-1 Is Continue......</div>
+            <h2 class="surprise-headline">SABHI DEVLOGS FREEZE HAIN...</h2>
+            <div class="surprise-divider"></div>
+            <p class="surprise-desc">10 din baad se journey shuru hone wali hai dosto kyuki <span
+                    class="highlight-red">CAT-1</span> hai.</p>
+            <button id="surpriseBtn" class="surprise-btn">Agar website dekhna chahte ho toh click <i
+                    class="fa-solid fa-arrow-right"></i></button>
+        </div>
     </div>
 
     <!-- Ambient Audio Widget -->
@@ -103,6 +120,9 @@
                                 class="fa-solid fa-globe"></i></a></li>
                 </ul>
             </nav>
+            <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
     </header>
 
@@ -485,6 +505,7 @@
     <div class="custom-horror-cursor" id="customHorrorCursor"></div>
 
     <script src="app.js"></script>
+    <script src="app-surprise.js"></script>
 </body>
 
 </html>

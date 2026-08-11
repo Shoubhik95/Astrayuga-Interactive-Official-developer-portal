@@ -13,19 +13,21 @@ document.addEventListener('DOMContentLoaded', () => {
             if (video) {
                 video.pause();
             }
+            const surpriseOverlay = document.getElementById('surpriseOverlay');
+            if (surpriseOverlay) {
+                surpriseOverlay.classList.add('active');
+            }
             setTimeout(() => {
                 loader.style.display = 'none';
             }, 1000); // Matches transition time
         }
     }
 
-    // Trigger video autoplay immediately with sound ON
+    // Trigger video autoplay immediately with sound muted
     if (video) {
-        video.muted = false;
+        video.muted = true;
         video.play().catch(error => {
-            console.log("Autoplay unmuted blocked by browser, falling back to muted autoplay: ", error);
-            video.muted = true;
-            video.play();
+            console.log("Muted autoplay blocked: ", error);
         });
     }
 
@@ -67,26 +69,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // Safety fallback: if video fails to play or load, automatically transition after 10 seconds
     setTimeout(fadeOutLoader, 10000);
 
-    // 1. Two-Year Milestone Countdown (Updates both top banner and Newswire clocks)
-    let targetDateStr = localStorage.getItem('astrayuga_target_date');
-    let startDateStr = localStorage.getItem('astrayuga_start_date');
-    let targetDate, startDate;
+    // 1. Two-Year Milestone Countdown (Starts after 10 days delay)
+    let baseDateStr = localStorage.getItem('astrayuga_base_date');
+    let baseDate;
 
-    if (targetDateStr && startDateStr) {
-        targetDate = new Date(targetDateStr);
-        startDate = new Date(startDateStr);
+    if (baseDateStr) {
+        baseDate = new Date(baseDateStr);
     } else {
-        targetDate = new Date();
-        targetDate.setFullYear(targetDate.getFullYear() + 2); // 2 years from now
-        startDate = new Date();
-        localStorage.setItem('astrayuga_target_date', targetDate.toISOString());
-        localStorage.setItem('astrayuga_start_date', startDate.toISOString());
+        baseDate = new Date();
+        localStorage.setItem('astrayuga_base_date', baseDate.toISOString());
     }
+
+    // 10-day delay in milliseconds
+    const delayMs = 10 * 24 * 60 * 60 * 1000;
+    const startDate = new Date(baseDate.getTime() + delayMs);
+    const targetDate = new Date(startDate.getTime());
+    targetDate.setFullYear(targetDate.getFullYear() + 2); // 2 years from the delayed start date
 
     function updateCountdown() {
         const now = new Date();
         const totalDuration = targetDate - startDate;
-        const timeRemaining = targetDate - now;
+        let timeRemaining;
+
+        if (now < startDate) {
+            // Delay period active: freeze at 2 years
+            timeRemaining = targetDate - startDate;
+        } else {
+            timeRemaining = targetDate - now;
+        }
 
         const elDays = document.getElementById('days');
         const elHours = document.getElementById('hours');
@@ -159,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateWithFlip(elHeroSeconds, String(seconds).padStart(2, '0'));
 
         // Update Progress Bar
-        const elapsed = now - startDate;
+        const elapsed = now < startDate ? 0 : now - startDate;
         const progressPercent = Math.min((elapsed / totalDuration) * 100, 100);
         if (elProgress) elProgress.style.width = `${progressPercent}%`;
     }
@@ -492,7 +502,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const subscriberEl = document.getElementById('subscriber-count');
             const heroSubscriberEl = document.getElementById('hero-subscriber-count');
 
-            const namespace = 'astrayuga-studios-portal';
+            const namespace = 'astrayuga-studios-official-portal';
 
             function updateDisplays(visitors, subscribers) {
                 const formattedV = Number(visitors).toLocaleString();
@@ -575,7 +585,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Update subscriber count in Abacus API
                 try {
-                    const namespace = 'astrayuga-studios-portal';
+                    const namespace = 'astrayuga-interactive-portal';
                     let newSubCount;
                     if (!alreadySubscribed) {
                         // If new, increment on server
@@ -602,6 +612,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (subscribeSuccessMsg) {
                     subscribeSuccessMsg.style.display = 'block';
                 }
+            });
+        }
+
+        // Mobile Navigation Toggle
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const studioNav = document.querySelector('.studio-nav');
+        if (mobileNavToggle && studioNav) {
+            mobileNavToggle.addEventListener('click', () => {
+                studioNav.classList.toggle('active');
+                const icon = mobileNavToggle.querySelector('i');
+                if (icon) {
+                    if (studioNav.classList.contains('active')) {
+                        icon.className = 'fa-solid fa-xmark';
+                    } else {
+                        icon.className = 'fa-solid fa-bars';
+                    }
+                }
+            });
+
+            // Close menu on link click
+            const navLinks = studioNav.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    studioNav.classList.remove('active');
+                    const icon = mobileNavToggle.querySelector('i');
+                    if (icon) icon.className = 'fa-solid fa-bars';
+                });
             });
         }
 

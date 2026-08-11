@@ -1,0 +1,225 @@
+/* ==========================================================================
+   CSS 1B: STICKY TOP COUNTDOWN TICKER, STUDIO HEADER & STICKY NAVIGATION
+   ========================================================================== */
+
+/* Sticky Top Countdown Banner */
+.top-countdown-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: rgba(12, 8, 8, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(153, 27, 27, 0.15);
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+    overflow: hidden;
+}
+
+.top-countdown-banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 150px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+    animation: radarSweep 5s linear infinite;
+}
+
+@keyframes radarSweep {
+    0% {
+        transform: translateX(-150px);
+    }
+    100% {
+        transform: translateX(100vw);
+    }
+}
+
+.top-countdown-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(229, 9, 20, 0.1) 0%, transparent 80%);
+    animation: bannerPulse 4s infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes bannerPulse {
+    0% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    z-index: 2;
+}
+
+.ticker-label {
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ticker-label i {
+    color: var(--primary-color);
+    text-shadow: 0 0 8px var(--primary-color);
+}
+
+.animate-spin {
+    animation: fa-spin 4s linear infinite;
+}
+
+.ticker-timer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2px 12px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--gold);
+}
+
+.ticker-digit {
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-shadow: 0 0 5px rgba(223, 178, 60, 0.5);
+}
+
+.ticker-label-sm {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-left: 1px;
+}
+
+.ticker-colon {
+    color: var(--text-muted);
+    font-weight: bold;
+    animation: colonBlink 1s step-end infinite;
+}
+
+@keyframes colonBlink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.ticker-target-date {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+/* HEADER & NAVIGATION */
+.studio-header {
+    position: fixed;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    background: rgba(12, 8, 8, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 90;
+    border-bottom: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.header-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0.6rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.studio-logo {
+    font-family: var(--font-deco);
+    font-size: 1.15rem;
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+.logo-gold {
+    color: var(--gold);
+}
+
+.logo-light {
+    color: var(--text-color);
+}
+
+.studio-nav .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.8rem;
+    align-items: center;
+}
+
+.studio-nav .nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: var(--transition);
+}
+
+.studio-nav .nav-link:hover,
+.studio-nav .nav-link.active {
+    color: var(--primary-color);
+}
+
+.nav-social-item a.nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.02);
+    font-size: 0.95rem;
+    transition: var(--transition);
+    padding: 0;
+}
+
+.nav-social-item a.nav-link:hover {
+    border-color: var(--primary-color);
+    color: var(--text-color);
+    background: rgba(153, 27, 27, 0.15);
+    transform: scale(1.15) rotate(8deg);
+    box-shadow: 0 0 12px rgba(153, 27, 27, 0.35);
+}
+
+.creator-badge {
+    background: rgba(223, 178, 60, 0.1);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-family: var(--font-heading);
+    letter-spacing: 1px;
+}
