@@ -449,3 +449,107 @@
     box-shadow: 0 6px 20px rgba(153, 27, 27, 0.6), 0 0 20px rgba(197, 168, 128, 0.4);
     transform: translateY(-2px) scale(1.02);
 }
+
+/* Extra Responsive Mobile Rules */
+@media (max-width: 1024px) {
+    .custom-horror-cursor {
+        display: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .studio-hero {
+        padding: 0 4%;
+        height: auto;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .hero-text-wrapper {
+        margin-left: 0;
+        text-align: center;
+        padding: 80px 0 40px 0;
+    }
+
+    .hero-game-title {
+        font-size: 2.2rem;
+        letter-spacing: 3px;
+    }
+
+    .hero-tagline {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-timer-container {
+        margin: 1.5rem auto;
+    }
+
+    .hero-timer-digits {
+        justify-content: center;
+        gap: 0.2rem;
+    }
+
+    .hero-timer-block {
+        min-width: 50px;
+        padding: 0.4rem 0.5rem;
+    }
+
+    .hero-timer-num {
+        font-size: 1.8rem;
+    }
+
+    .hero-timer-label {
+        font-size: 0.5rem;
+        letter-spacing: 0.5px;
+    }
+
+    .hero-timer-colon {
+        font-size: 1.2rem;
+        margin: 0;
+    }
+
+    .hero-timer-quote {
+        text-align: left;
+    }
+
+    /* Fix stats cards, devlog grids, and skill lists for small devices */
+    .profile-details h1 {
+        font-size: 1.6rem;
+    }
+
+    .devlogs-grid, .newswire-grid, .games-grid {
+        gap: 1.2rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .section-subtitle {
+        font-size: 0.85rem;
+        margin-bottom: 3rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .hero-game-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-timer-block {
+        min-width: 42px;
+        padding: 0.3rem 0.4rem;
+    }
+
+    .hero-timer-num {
+        font-size: 1.5rem;
+    }
+
+    .hero-timer-label {
+        font-size: 0.45rem;
+    }
+}
+

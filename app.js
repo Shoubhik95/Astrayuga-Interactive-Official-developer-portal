@@ -13,10 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (video) {
                 video.pause();
             }
-            const surpriseOverlay = document.getElementById('surpriseOverlay');
-            if (surpriseOverlay) {
-                surpriseOverlay.classList.add('active');
-            }
             setTimeout(() => {
                 loader.style.display = 'none';
             }, 1000); // Matches transition time
@@ -62,41 +58,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (skipBtn) {
-        // Allow skipping the intro
-        skipBtn.addEventListener('click', fadeOutLoader);
+        // Allow skipping the intro and unmute audio on user interaction
+        skipBtn.addEventListener('click', () => {
+            fadeOutLoader();
+            setTimeout(() => {
+                const audioWidget = document.getElementById('audioWidget');
+                if (audioWidget) {
+                    const audioStatus = audioWidget.querySelector('.audio-status');
+                    if (audioStatus && audioStatus.textContent === 'MUTED') {
+                        audioWidget.click();
+                    }
+                }
+            }, 300);
+        });
     }
 
     // Safety fallback: if video fails to play or load, automatically transition after 10 seconds
     setTimeout(fadeOutLoader, 10000);
 
-    // 1. Two-Year Milestone Countdown (Starts after 10 days delay)
-    let baseDateStr = localStorage.getItem('astrayuga_base_date');
-    let baseDate;
+    // 1. Two-Year Milestone Countdown (Reset to start from August 22, 2026 at 18:12:13)
+    const baseDate = new Date('2026-08-22T18:12:13+05:30');
 
-    if (baseDateStr) {
-        baseDate = new Date(baseDateStr);
-    } else {
-        baseDate = new Date();
-        localStorage.setItem('astrayuga_base_date', baseDate.toISOString());
-    }
-
-    // 10-day delay in milliseconds
-    const delayMs = 10 * 24 * 60 * 60 * 1000;
-    const startDate = new Date(baseDate.getTime() + delayMs);
+    const startDate = baseDate;
     const targetDate = new Date(startDate.getTime());
-    targetDate.setFullYear(targetDate.getFullYear() + 2); // 2 years from the delayed start date
+    targetDate.setFullYear(targetDate.getFullYear() + 2); // 2 years from the start date
 
     function updateCountdown() {
         const now = new Date();
         const totalDuration = targetDate - startDate;
-        let timeRemaining;
-
-        if (now < startDate) {
-            // Delay period active: freeze at 2 years
-            timeRemaining = targetDate - startDate;
-        } else {
-            timeRemaining = targetDate - now;
-        }
+        let timeRemaining = targetDate - now;
 
         const elDays = document.getElementById('days');
         const elHours = document.getElementById('hours');
@@ -169,8 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
         updateWithFlip(elHeroSeconds, String(seconds).padStart(2, '0'));
 
         // Update Progress Bar
-        const elapsed = now < startDate ? 0 : now - startDate;
-        const progressPercent = Math.min((elapsed / totalDuration) * 100, 100);
+        const elapsed = now - startDate;
+        const progressPercent = Math.max(0, Math.min((elapsed / totalDuration) * 100, 100));
         if (elProgress) elProgress.style.width = `${progressPercent}%`;
     }
 
@@ -502,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const subscriberEl = document.getElementById('subscriber-count');
             const heroSubscriberEl = document.getElementById('hero-subscriber-count');
 
-            const namespace = 'astrayuga-studios-official-portal';
+            const namespace = 'astrayuga-studios-official-portal-v2';
 
             function updateDisplays(visitors, subscribers) {
                 const formattedV = Number(visitors).toLocaleString();
